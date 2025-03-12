@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  E-commerce Real-time Product Classification
+  #
+
+
+Main Roles
+
+Analyzed data, researched case studies, and implemented findings.
+Experimented with BERT models and LLMs for classification tasks.
+Designed and tested a retraining pipeline in a containerized environment.
+Monitored and reported issues during the maintenance phase.
+Retrained the classification model to accommodate category revisions.
+
+
+Duration: 13 months
+
+8 months for system development
+5 months for maintanance and retraining model
+
+
+Tech Stacks:
+PyTorch, BERT(RoBERTa), LLM(Solar10.7B), Drift Detection, Retraining Pipeline, Docker
+
+
+  Summary
+  #
+
+This project aimed to develop an automated product classification system for a Korean e-commerce platform facing challenges such as high product registration volume, category misclassification, seasonal data bias, and evolving category structures. A modified filtering method and LLM-assisted annotation significantly improved training data quality. The system utilized a BERT-based model with a threshold-based review process, allowing low-confidence predictions to be flagged for human annotation via a back-office system, improving efficiency through soft labeling. A retraining pipeline was established, incorporating human-annotated data and managing updates via Docker-based automation. The final model achieved 91% accuracy, with 89% of products expected to be correctly categorized post-migration, while significantly reducing annotation costs, improving maintainability, and enhancing scalability to adapt to evolving e-commerce trends.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/portfolio/real-time-nlpops-system/">
+  <meta property="og:site_name" content="AI Project Archive">
+  <meta property="og:title" content="Real-Time NLPOps System">
+  <meta property="og:description" content="E-commerce Real-time Product Classification # Main Roles Analyzed data, researched case studies, and implemented findings. Experimented with BERT models and LLMs for classification tasks. Designed and tested a retraining pipeline in a containerized environment. Monitored and reported issues during the maintenance phase. Retrained the classification model to accommodate category revisions. Duration: 13 months 8 months for system development 5 months for maintanance and retraining model Tech Stacks: PyTorch, BERT(RoBERTa), LLM(Solar10.7B), Drift Detection, Retraining Pipeline, Docker Summary # This project aimed to develop an automated product classification system for a Korean e-commerce platform facing challenges such as high product registration volume, category misclassification, seasonal data bias, and evolving category structures. A modified filtering method and LLM-assisted annotation significantly improved training data quality. The system utilized a BERT-based model with a threshold-based review process, allowing low-confidence predictions to be flagged for human annotation via a back-office system, improving efficiency through soft labeling. A retraining pipeline was established, incorporating human-annotated data and managing updates via Docker-based automation. The final model achieved 91% accuracy, with 89% of products expected to be correctly categorized post-migration, while significantly reducing annotation costs, improving maintainability, and enhancing scalability to adapt to evolving e-commerce trends.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Real-Time NLPOps System | AI Project Archive</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/portfolio/real-time-nlpops-system/">
+<link rel="stylesheet" href="/book.min.434035e7885c7f5d12818bd9f111cf1a0925c6fb78382667381c3d5eda3fb4f1.css" integrity="sha256-Q0A154hcf10SgYvZ8RHPGgklxvt4OCZnOBw9Xto/tPE=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.c774003085ea3d1da7e30f624e35ee827830dfb04c61c0a7e57cd82e6bf588f1.js" integrity="sha256-x3QAMIXqPR2n4w9iTjXugngw37BMYcCn5XzYLmv1iPE=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+
+<br>
+
+
+<div style="text-align: center; padding: 10px;">
+  <img src="/profile.png" alt="Profile" style="max-width: 80%; height: auto;">
+</div>
+<br>
+
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>AI Project Archive</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/resume/" class="">Resume</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/portfolio/" class="">Portfolio</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/portfolio/real-time-nlpops-system/" class="active">Real-Time NLPOps System</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+<hr style="border: none; border-top: 0.5px solid; ">
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/"  >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/hynjngyeo"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href=""  target="_blank" rel="noopener">
+        
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Real-Time NLPOps System</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#e-commerce-real-time-product-classification">E-commerce Real-time Product Classification</a>
+      <ul>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#problem-statement">Problem Statement</a></li>
+        <li><a href="#key-findings-from-data-analysis">Key Findings from Data Analysis</a></li>
+        <li><a href="#key-approaches--solutions">Key Approaches &amp; Solutions</a>
+          <ul>
+            <li><a href="#1-selecting-features">1. Selecting Features</a></li>
+            <li><a href="#2-filtering-training-data">2. Filtering Training Data</a></li>
+            <li><a href="#3-systemic-approach">3. Systemic Approach</a></li>
+            <li><a href="#4-building-a-retraining-pipeline">4. Building a Retraining Pipeline</a></li>
+          </ul>
+        </li>
+        <li><a href="#main-technologies">Main Technologies</a></li>
+        <li><a href="#maintanance-and-retraining">Maintanance and Retraining</a>
+          <ul>
+            <li><a href="#maintananace">Maintananace</a></li>
+            <li><a href="#retraining">Retraining</a></li>
+          </ul>
+        </li>
+        <li><a href="#insights">Insights</a></li>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="e-commerce-real-time-product-classification">
+  E-commerce Real-time Product Classification
+  <a class="anchor" href="#e-commerce-real-time-product-classification">#</a>
+</h1>
+<ul>
+<li><strong>Main Roles</strong>
+<ul>
+<li>Analyzed data, researched case studies, and implemented findings.</li>
+<li>Experimented with <strong>BERT models</strong> and <strong>LLMs</strong> for classification tasks.</li>
+<li>Designed and tested a <strong>retraining pipeline</strong> in a containerized environment.</li>
+<li>Monitored and reported issues during the <strong>maintenance phase</strong>.</li>
+<li>Retrained the classification model to accommodate <strong>category revisions</strong>.</li>
+</ul>
+</li>
+<li><strong>Duration</strong>: 13 months
+<ul>
+<li><strong>8 months</strong> for system development</li>
+<li><strong>5 months</strong> for maintanance and retraining model</li>
+</ul>
+</li>
+<li><strong>Tech Stacks</strong>:
+<code>PyTorch</code>, <code>BERT(RoBERTa)</code>, <code>LLM(Solar10.7B)</code>, <code>Drift Detection</code>, <code>Retraining Pipeline</code>, <code>Docker</code></li>
+</ul>
+<h2 id="summary">
+  Summary
+  <a class="anchor" href="#summary">#</a>
+</h2>
+<p>This project aimed to develop an <strong>automated product classification system</strong> for a Korean e-commerce platform facing challenges such as high product registration volume, category misclassification, seasonal data bias, and evolving category structures. A modified filtering method and LLM-assisted annotation significantly improved training data quality. The system utilized a BERT-based model with a threshold-based review process, allowing low-confidence predictions to be flagged for human annotation via a back-office system, improving efficiency through soft labeling. A retraining pipeline was established, incorporating human-annotated data and managing updates via Docker-based automation. The final model achieved 91% accuracy, with 89% of products expected to be correctly categorized post-migration, while significantly reducing annotation costs, improving maintainability, and enhancing scalability to adapt to evolving e-commerce trends.</p>
+<hr>
+<h2 id="problem-statement">
+  Problem Statement
+  <a class="anchor" href="#problem-statement">#</a>
+</h2>
+<p>An online e-commerce shopping mall in Korea connects sellers and customers by
+receiving product information from sellers and making it available to customers.
+While the shop primarily sells clothing, it also offers fresh food, furniture, and pet supplies.</p>
+<p>The problem lies in the registration process, where most sellers upload products in bulk (or
+through agencies using automated programs), leading to a noticeable tendency for category
+misclassification. According to a sample analysis, approximately <u>35% of all products are miscategorized</u>.</p>
+<p>To address this issue, the shop requires an automated system, as it currently has
+<u>over 10 million products on sale</u> and <u>around 60K new products registered daily</u>. However, a major
+challenge is the limited budget for human annotation, making it difficult to create high-quality
+training data. Additionally, since e-commerce trends evolve rapidly, the category system is revised
+every six months. Furthermore, because the ultimate goal of this project is to enhance
+customer experience, a real-time system is essential. The project also involves developing a
+back-office platform for additional human annotation and data management.</p>
+<p>📌 <strong>Problem</strong></p>
+<p>Resolving the issue of products being placed in inappropriate categories: for both products in the shop and those being registered</p>
+<p>📌 <strong>Conditions</strong></p>
+<ul>
+<li>Limited budget for human annotation, compared to huge amount of data to process</li>
+<li>Categories are revised every 6 months</li>
+<li>Real-time system is required</li>
+</ul>
+<h2 id="key-findings-from-data-analysis">
+  Key Findings from Data Analysis
+  <a class="anchor" href="#key-findings-from-data-analysis">#</a>
+</h2>
+<p>After reviewing the complete product dataset at multiple points in time, the team identified the following key insights:</p>
+<ol>
+<li>The raw dataset consists of more than <strong>10 million products</strong> and is <em>highly skewed</em> in terms of class distribution.</li>
+<li>The number of product categories exceeds <strong>2,000</strong>.</li>
+<li>Some products belong to multiple categories, while others do not fit into any. However,
+the shop&rsquo;s policy allows only one category per product, which can cause confusion for both the model and human annotators.</li>
+<li>Certain categories exhibit strong seasonality, with the number of products fluctuating significantly—sometimes even dropping to zero.</li>
+</ol>
+<h2 id="key-approaches--solutions">
+  Key Approaches &amp; Solutions
+  <a class="anchor" href="#key-approaches--solutions">#</a>
+</h2>
+<h3 id="1-selecting-features">
+  1. Selecting Features
+  <a class="anchor" href="#1-selecting-features">#</a>
+</h3>
+<ul>
+<li>Classification using product titles yielded the highest performance.</li>
+<li>When training a baseline model with ViT on product images, the accuracy was extremely low due to data noise. Given the need for low latency and low cost, image data was not used.</li>
+<li>Adding additional features such as product price and registered category did not result in significant performance improvements.</li>
+</ul>
+<h3 id="2-filtering-training-data">
+  2. Filtering Training Data
+  <a class="anchor" href="#2-filtering-training-data">#</a>
+</h3>
+<ul>
+<li>Applied a modified filtering method based on the approach from 
+  <a href="/docs/portfolio/with-toc/#reference">Amazon paper</a>, leading to a slight performance improvement.
+<ul>
+<li>The core idea was to remove uncertain product-category pairs from the training data as much as possible, iteratively refining the model&rsquo;s accuracy.</li>
+<li>However, a downside was the total removal of certain patterned data.</li>
+</ul>
+</li>
+<li>Used LLM for annotation
+<ul>
+<li>Trained the LLM on a small set of human-annotated data. Since there were a large number of categories, we used fine-tuned BERT to select the Top-K predictions as annotation choices.</li>
+<li>The LLM achieved an accuracy of approximately 80%. However, when the generated product-category pairs were added to the training data, the classification model showed a significant performance improvement.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-systemic-approach">
+  3. Systemic Approach
+  <a class="anchor" href="#3-systemic-approach">#</a>
+</h3>
+<ul>
+<li>Used a single BERT model to enable low-cost, fast classification while ensuring maintainability.</li>
+<li>Since the classification model cannot be 100% accurate, a <strong>threshold</strong> was set on the model’s classification scores. Cases that were not automatically classified were reviewed step-by-step based on their scores.</li>
+<li>A back-office system was developed for project managers to facilitate this process.
+<ul>
+<li>This allowed annotation tasks or review of unclassified data to be <u>prioritized based on the model&rsquo;s confidence scores</u>, with lower-scoring cases checked first.</li>
+<li>Similar to LLM-based training data filtering, <strong>soft predictions</strong> were provided to significantly accelerate human annotation.
+<ul>
+<li>Instead of selecting from over 2,000 categories, annotators could choose from the Top-10 predicted categories, greatly improving efficiency.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-building-a-retraining-pipeline">
+  4. Building a Retraining Pipeline
+  <a class="anchor" href="#4-building-a-retraining-pipeline">#</a>
+</h3>
+<ul>
+<li>The most critical part of the retraining pipeline was generating new training data.
+<ul>
+<li>Human-annotated data from the back-office was added in appropriate proportions to both the training and evaluation sets.</li>
+</ul>
+</li>
+<li>Since the train &amp; eval datasets and incoming data for the automatic classification system were managed via a production database, the process of retrieving and updating datasets was implemented using Docker containers.</li>
+<li>Continuous Learning was tested, but it resulted in a 6% drop in accuracy, indicating difficulty in maintaining memory from previous models.
+<ul>
+<li>Instead of pure continual learning, we adopted a strategy where new data was added to the existing training dataset to ensure stable performance.</li>
+</ul>
+</li>
+</ul>
+<h2 id="main-technologies">
+  Main Technologies
+  <a class="anchor" href="#main-technologies">#</a>
+</h2>
+<ul>
+<li>Implemented an automated 
+  <a href="https://www.amazon.science/publications/robust-product-classification-with-instance-dependent-noise">masked filtering method</a> to refine training data from raw data.</li>
+<li>Trained and deployed BERT(
+  <a href="https://huggingface.co/klue/roberta-base">RoBERTa</a>) for classification tasks.</li>
+<li>Trained and deployed LLM(
+  <a href="https://huggingface.co/upstage/SOLAR-10.7B-Instruct-v1.0">Solar 10.7B</a>) using 
+  <a href="https://h2o.ai/platform/ai-cloud/make/llm-studio/">H2O LLM Studio</a> as the code base.</li>
+<li>Developed a <strong>retraining pipeline</strong> in an <strong>AWS Docker environment</strong>, managing data retrieval from the database and reintegration after processing.</li>
+</ul>
+<h2 id="maintanance-and-retraining">
+  Maintanance and Retraining
+  <a class="anchor" href="#maintanance-and-retraining">#</a>
+</h2>
+<h3 id="maintananace">
+  Maintananace
+  <a class="anchor" href="#maintananace">#</a>
+</h3>
+<ul>
+<li>Weekly and monthly reports indicated a slight drift in incoming data.</li>
+<li>The model struggled to determine whether a product titled &ldquo;T-shirt&rdquo; was short-sleeved or
+long-sleeved (i.e., the title lacked sufficient information for classification).
+<ul>
+<li><strong>Status</strong>: The model exhibited high confidence in these misclassifications.</li>
+<li><strong>Cause</strong>: Since most of the training data consisted of products available from
+winter to spring, the majority of &ldquo;T-shirts&rdquo; in the dataset were long-sleeved.</li>
+<li><strong>Action Plan</strong>: While it is impossible to correctly classify a product
+without sufficient information, incorporating additional data from various seasons
+can improve the model. This adjustment will be implemented in the retraining process.</li>
+</ul>
+</li>
+<li>Minor issues related to API and database connections were resolved.</li>
+</ul>
+<h3 id="retraining">
+  Retraining
+  <a class="anchor" href="#retraining">#</a>
+</h3>
+<ul>
+<li>In the production database, the training and evaluation datasets were updated
+with human-annotated data, while category revisions were handled by another department.</li>
+<li>The model was retrained with the updated data, yielding performance similar to previous results.</li>
+<li>The updated training data was systematically stored in the database for ongoing management, and
+the model was trained and evaluated through an automated pipeline.</li>
+</ul>
+<h2 id="insights">
+  Insights
+  <a class="anchor" href="#insights">#</a>
+</h2>
+<p>Throughout this project, I participated in the AI model lifecycle, which played a major role in the system.
+Looking back, most of the effort was focused on analyzing data—directly tied to business problems—and
+developing strategies to meet business needs: <u><strong>reducing costs, increasing efficiency, and ensuring continuous operation.</strong></u></p>
+<hr>
+<h2 id="reference">
+  Reference
+  <a class="anchor" href="#reference">#</a>
+</h2>
+<ul>
+<li>
+  <a href="https://www.amazon.science/publications/robust-product-classification-with-instance-dependent-noise">Robust Product Classification with Instance-Dependent Noise, ECNLP 2022</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#e-commerce-real-time-product-classification">E-commerce Real-time Product Classification</a>
+      <ul>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#problem-statement">Problem Statement</a></li>
+        <li><a href="#key-findings-from-data-analysis">Key Findings from Data Analysis</a></li>
+        <li><a href="#key-approaches--solutions">Key Approaches &amp; Solutions</a>
+          <ul>
+            <li><a href="#1-selecting-features">1. Selecting Features</a></li>
+            <li><a href="#2-filtering-training-data">2. Filtering Training Data</a></li>
+            <li><a href="#3-systemic-approach">3. Systemic Approach</a></li>
+            <li><a href="#4-building-a-retraining-pipeline">4. Building a Retraining Pipeline</a></li>
+          </ul>
+        </li>
+        <li><a href="#main-technologies">Main Technologies</a></li>
+        <li><a href="#maintanance-and-retraining">Maintanance and Retraining</a>
+          <ul>
+            <li><a href="#maintananace">Maintananace</a></li>
+            <li><a href="#retraining">Retraining</a></li>
+          </ul>
+        </li>
+        <li><a href="#insights">Insights</a></li>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

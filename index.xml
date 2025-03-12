@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Intro on AI Project Archive</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Intro on AI Project Archive</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real-Time NLPOps System</title>
+      <link>http://localhost:1313/docs/portfolio/real-time-nlpops-system/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/portfolio/real-time-nlpops-system/</guid>
+      <description>&lt;h1 id=&#34;e-commerce-real-time-product-classification&#34;&gt;&#xA;  E-commerce Real-time Product Classification&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#e-commerce-real-time-product-classification&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Main Roles&lt;/strong&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Analyzed data, researched case studies, and implemented findings.&lt;/li&gt;&#xA;&lt;li&gt;Experimented with &lt;strong&gt;BERT models&lt;/strong&gt; and &lt;strong&gt;LLMs&lt;/strong&gt; for classification tasks.&lt;/li&gt;&#xA;&lt;li&gt;Designed and tested a &lt;strong&gt;retraining pipeline&lt;/strong&gt; in a containerized environment.&lt;/li&gt;&#xA;&lt;li&gt;Monitored and reported issues during the &lt;strong&gt;maintenance phase&lt;/strong&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Retrained the classification model to accommodate &lt;strong&gt;category revisions&lt;/strong&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Duration&lt;/strong&gt;: 13 months&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;8 months&lt;/strong&gt; for system development&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;5 months&lt;/strong&gt; for maintanance and retraining model&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Tech Stacks&lt;/strong&gt;:&#xA;&lt;code&gt;PyTorch&lt;/code&gt;, &lt;code&gt;BERT(RoBERTa)&lt;/code&gt;, &lt;code&gt;LLM(Solar10.7B)&lt;/code&gt;, &lt;code&gt;Drift Detection&lt;/code&gt;, &lt;code&gt;Retraining Pipeline&lt;/code&gt;, &lt;code&gt;Docker&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;summary&#34;&gt;&#xA;  Summary&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#summary&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;This project aimed to develop an &lt;strong&gt;automated product classification system&lt;/strong&gt; for a Korean e-commerce platform facing challenges such as high product registration volume, category misclassification, seasonal data bias, and evolving category structures. A modified filtering method and LLM-assisted annotation significantly improved training data quality. The system utilized a BERT-based model with a threshold-based review process, allowing low-confidence predictions to be flagged for human annotation via a back-office system, improving efficiency through soft labeling. A retraining pipeline was established, incorporating human-annotated data and managing updates via Docker-based automation. The final model achieved 91% accuracy, with 89% of products expected to be correctly categorized post-migration, while significantly reducing annotation costs, improving maintainability, and enhancing scalability to adapt to evolving e-commerce trends.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
