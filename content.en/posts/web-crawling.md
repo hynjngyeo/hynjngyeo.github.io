@@ -1,5 +1,5 @@
 +++
-title = "Crawling with Python"
+title = "Web Crawling with Python"
 description = ""
 tags = [
     "crawling",
@@ -11,11 +11,25 @@ categories = [
 menu = "main"
 +++
 
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        h3::before {
+            content: "📌 ";
+        }
+    </style>
+</head>
+
+This post summarizes the key takeaways from my reading of _Web Scraping with Python_ by Ryan Mitchell. The code examples included have been tested locally.
+
 Web crawling recursively finds URLs on a page and repeatedly loads new pages. While a scraper works well when all data is contained within a single page, using a crawler requires careful attention to bandwidth to minimize the load on the target server.
 
-# Quick Techniques
+# Quick Approach
+<hr style="border: 1px solid; margin-top: -5px;">
 
-Here are some basic techniques that can scrape and crawl a single domain, single site, and the Internet.
+Here are some basic techniques that can scrape and crawl single web page, web site, and the Internet.
 
 {{% hint info %}}
 **Before Building a Crawler**  
@@ -24,10 +38,10 @@ For effective crawling, especially for large scale project, check in advance if 
 For example, Wikipedia provides [Wiki API](https://www.mediawiki.org/wiki/API:Main_page).
 {{% /hint %}}
 
-## 1. Exploring a Single Domain
+## 1. Scraping a Web Page
 <hr>
 
-Let's write a program that crawls HTML text from Wikipedia. Following code crawls a link list from a specifice Wikipedia web page.
+Let's write a program that scrapes HTML text from Wikipedia. Following code collects a link list from a specifice Wikipedia web page.
 
 ```python
 from urllib.request import urlopen
@@ -77,41 +91,43 @@ while len(links) > 0:
 ```
 
 
-## 2. Crawling the Entire Site
+## 2. Crawling a Web Site
 <hr>
 
-### 2.1. 스크랩이 가능한 웹 페이지들
-* 표면 웹(Surface Web) : 검색엔진에서 저장하는 부분이다.
-* 딥 웹(Deep Web) : 표면 웹의 나머지 부분으로, 인터넷의 90% 정도를 차지한다. 딥웹은 링크되지 않은 페이지나 robots.txt로 차단된 페이지들을 포함하지만, 일부분은 스크랩이 가능하다. 
-    - robots.txt 파일은 크롤러 트래픽을 관리하기 위해 사용되며, 사이트에서 접근가능한 URL을 검색엔진 크롤러에 알려준다. 
-* 다크 웹(Dark Web) : 딥 웹의 일부분으로, 기존 네트워크 하드웨어 인프라에서 작동하긴 하지만 접근하기 위해 익명 클라이언트 Tor등 특정 프로그램이나 방법을 요구한다. HTTP 위에서 동작하며 보안 채널로 정보를 교환하는 앱 프로토콜을 사용한다. 다크웹을 스크랩하는 데에는 표면 웹을 스크랩하는 것과 다른 방법이 필요하다.
-    - Tor(The Onion Router)는 네트워크 우회를 통해 네트워크 익명화를 시행하는 프로그램이다.
+### Questions to Answer
 
-### 2.2. 웹사이트 전체 크롤링이 유용한 경우
-- 사이트맵 생성 : 크롤러를 통해 사이트 전체를 이동하면서 내부링크를 수집해 페이지들을 폴더구조와 같이 정리할 수 있다. 이를 통해 웹사이트 설계 비용등을 계산할 수 있다.
-- 데이터 수집 : 특정 페이지(예를 들어 블로그 포스트나 뉴스 기사 페이지)에 국한해서 검색 플랫폼의 프로토타입을 생성할 때도 재귀적인 크롤링을 이용할 수 있다.
+1. **Is the webpage scrapable?**
+    - **Surface Web** refers to the web stored in search engines.
+    - **Deep Web** is the rest part of the surface web, accounting for 90% of the Internet. Deep Web includes unliked pages and pages blocked with `robots.txt`, with some of them are scrapable.
+        - `robots.txt` is a file used to control web crawler access, specifying which parts of a website should or should not be crawled.
+    - **Dark Web** is part of the deep web which requires a specific program or method to access such as _Tor_. A different approach is required to scrap the dark web compared to the surface web.
+        - Tor(The Onion Router) is a software and network that enables anonymization by routing traffic through multiple encrypted relays.
 
-### 2.3. 전체 사이트 크롤링에서 중복 피하기
-페이지당 내부 링크가 10개씩 있고 사이트가 다섯 단계로 구성되어있다고 하자. 페이지를 철저히 탐색하기 위해서는 최소 $105$ 페이지에서 $10^5$ 페이지를 탐색해 한다. 그렇지만 실제로 내부 링크 중 중복이 많기 때문에 $10^5$ 페이지를 탐색해야하는 경우는 거의 없다. 
+2. **When to scrape an entire site?**
+    - **Sitemap Generation**: By navigating the entire site through a crawler and collecting internal links, pages can be organized similarly to a folder structure. This process helps estimate website design costs.
+    - **Data Collection**: Recursive crawling can be used to create a prototype of a search platform, even when limited to specific pages such as blog posts or news articles.
 
-즉 전체 사이트를 크롤링하는 프로그램은 중복 방문을 하지 않는 것이 중요하다. 같은 페이지를 두 번 크롤링하지 않기 위해서는 발견하는 내부 링크를 일정한 형식을 따르도록 해서 집합(Set)에 보관할 수 있다.
+### Preventing Duplicate Crawling 
+Suppose a website consists of five levels, with each page containing ten internal links. To thoroughly explore the site, a crawler needs to scan at least $105$ pages and, in the worst case, up to $10^5$ pages. However, due to significant redundancy among internal links, the need to crawl $10^5$ pages is rare.
+
+Thus, it is crucial for a web crawling program to **avoid redundant visits**. To prevent crawling the same page twice, discovered internal links should follow a **consistent format** and be stored in a **set (Set data structure)** to ensure uniqueness.
 
 ```python
-# 웹 페이지 중복을 피하기 위해 집합으로 방문한 링크를 관리한다.
+# To avoid obtaining data from the same web page, manage visited links in a set.
 pages = set()
 
 def printLinks(pageUrl, recur_cnt):
     """
-    위키백과 사이트에서 내부 링크를 100번 재귀 탐색한다. 
+    Perform recursive traversal `recur_cnt` times in Wikipedia site.
     """
-    # 재귀 횟수를 100번으로 제한한다.
+    # Limit recursion limit to 100.
     recur_cnt += 1
     if recur_cnt > 100: return
 
-    # 프로그램이 동작하는 동안 집합이 유지되도록 한다.
+    # Define a set to persist throughout the program's execution.
     global pages
     
-    # 위키피디아에서 pageUrl을 검색한다.
+    # Search for `pageUrl` in Wikipedia.
     try:
         html = urlopen(f'http://en.wikipedia.org/{pageUrl}')
     except HTTPError as e:
@@ -123,31 +139,31 @@ def printLinks(pageUrl, recur_cnt):
 
     bs = BeautifulSoup(html.read(), 'html.parser')
 
-    # 페이지의 모든 'wiki/...' URL을 탐색하여 출력한다. 
+    # Pring every 'wiki/...' URLs in the page.
     for link in bs.findAll('a', href=re.compile('^('wiki/')')):
         if 'href' in link.attrs:
             if link.attrs['href'] not in pages:
-                # 새로운 페이지를 탐색한다.
+                # Search for a new page.
                 newPage = link.attr['href']
                 print(newPage)
                 pages.add(newPage)
                 printLinks(newPage)
 
-# getLinks 함수를 재귀적으로 호출한다.
-# Python의 재귀 깊이는 1000회로 제한되어 있으므로, 
-# 위키백과 같이 큰 링크 네트워크를 탐색할 때는 재귀 횟수를 제한하도록 한다.
+# Call printLinks function iteratively.
+# NOTE: Be mindful of memory usage when setting the iteration.
 printLinks('', 1)
 ```
 
-### 2.4. 전체 사이트에서 데이터 수집하기
-단순히 URL을 출력하는 것 외에 페이지의 다양한 데이터를 수집해보자.
+### Collecting Data from the Entire Site
+Now you can collect data from the entire site with the code below.
 
 ```python
 pages = set()
 
 def printSummary(pageUrl, recur_cnt):
     """
-    위키백과 사이트에서 내부링크를 탐색하며 페이지 제목과 첫번째 문단, 편집 링크를 출력한다.
+    Print page title, first paragraphm and edit link by searching
+    inner links in the Wikipedia site.
     """
     recur_cnt += 1
     if recur_cnt > 100: return
@@ -156,14 +172,14 @@ def printSummary(pageUrl, recur_cnt):
     html = urlopen(f'http://en.wikipedia.org/{pageUrl}')
     bs = BeautifulSoup(html.read(), 'html.parser')
 
-    try: # 다음을 모두 수행하는 경우 항목 페이지이다.
-        # 페이지 제목을 출력한다.
+    try: # Is a content page if below are executed.
+        # Print the title.
         print(bs.h1.get_text())
-        # 첫 번째 문단을 출력한다.
-        # div#mw-content-text -> p에서 첫번째 문단 태그만 선택한다.
+        # Print the first paragraph.
+        # Select the first element from div#mw-content-text -> p.
         print(bs.find(id='mw-context-text').findall('p')[0])
-        # 편집 링크를 출력한다.
-        # li#ca-edit -> span -> a로 탐색한다.
+        # Print the edit link.
+        # Search for li#ca-edit -> span -> a.
         print(bs.find(id='ca-edit').find('span').find('a').attrs['href'])
     except AttributeError: 
         print('This page is not a content page!')
@@ -179,158 +195,171 @@ def printSummary(pageUrl, recur_cnt):
 printSummary('')
 ``` 
 
-## 3. Crawling Internet
+## 3. Crawling the Internet
 <hr>
 
-### 3.1. Things to Consider Before Building Web Crawler
-- 정해진 사이트 몇 개만 수집하는 것인지, 아니면 있는지도 몰랐던 사이트에 방문하는 크롤러가 필요한 것인지 질문한다.
-- 크롤러가 특정 웹사이트에 도달했을 때, 사이트의 정보를 탐색할지 다른 링크를 따라갈지 고려한다.
-- 제외할 사이트는 없는지 고려한다. 예를 들어, 언어권이 다른 경우나 특정 컨텐츠를 포함하면 재귀를 종료할만한지 고려한다.
-- 방문할 가능성이 있는 웹사이트에 크롤러가 방문하는 것이 합법적인지 고려한다.
+### Questions to Answer
+- Ask whether the crawler should collect data from a predefined set of sites or explore unknown sites as well.
+- Determine whether the crawler should analyze the content of a website upon reaching it or follow links to other pages.
+- Consider if there are any sites to exclude. For example, should recursion stop when encountering a different language or specific content?
+- Ensure that visiting potential websites with the crawler is legally permissible.
 
-### 3.2. Writing Web Crawler
-웹 크롤러의 코드는 전체 사이트를 탐색하는 코드와 유사하다. 다만 탐색 한계를 명시하고 예외 사항을 처리해야 실무에 활용할 수 있다.
+### Building a Web Crawler
+The code for a web crawler is similar to that of a full-site exploration script. However, to make it practical for real-world applications, it must define exploration limits and handle exceptions properly.
 
-![](img/flow-of-crawler.png)
+Below is an example of a web crawler flow. Assuming there are two main loops, the following loop explores external links on a page. If no external links are found, it searches for internal links and adds them to a list.
 
-Flow of a crawler searching every outer link of a website.
+<figure>
+    <img src="/posts/images/crawler-flow.png" width="100%">
+    <figcaption>Flow of a crawler searching every outer link of a website.</figcaption>
+</figure>
 
-위는 웹 크롤러 논리의 한 예이다. 크게 두 개의 루프가 있다고 할 때, 아래의 루프는 페이지 내의 외부 링크를 탐색하고, 외부 링크가 없는 경우에는 내부 링크를 탐색하여 리스트에 추가한다.
 
+
+<br>
 
 # Crawl with BeautifulSoup Library
-## Concepts
+<hr style="border: 1px solid; margin-top: -5px;">
+
+Let's dive in to further concepts and tools in python library, BeautifulSoup -- which helps parsing and extracting data from HTML and XML documents. It provides simple methods to navigate, search, and modify the parsed tree. Here, it can be used for obtaining targeted information from websites.
+
+## 4. BeautifulSoup Basics
 <hr>
 
-### 1. Analyzing Basic HTML
+### Objects & Parsers
 
+#### Main Objects in BeautifulSoup  
+1. **`BeautifulSoup`**: Represents the entire parsed document.  
+2. **`Tag`**: Represents an individual XML or HTML tag.  
+3. **`NavigableString`**: Represents the text inside a tag, excluding the tag itself.  
+4. **`Comment`**: Represents an HTML comment.  
+
+#### Parsers in BeautifulSoup  
+- **`html.parser`**: A built-in parser that requires no additional C package installation.  
+- **`lxml`**: Provides better performance than `html.parser` when parsing malformed HTML.  
+- **`html5lib`**: More robust than `lxml`, automatically fixing unclosed tags and incorrect tag hierarchies.  
+
+Following code shows how to read basic html components with `BeautifulSoup()`.
 ```python
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 html = urlopen("https://www.pythonscraping.com/pages/page1.html")
 bs = BeautifulSoup(html.read(), 'html.parser')
-print(bs.tag.subTag) # tag, subTag는 가상의 태그.
+print(bs.tag.subTag) 
 ```
+1. First, pass the HTML text.  
+2. Second, pass the parser that BeautifulSoup uses to create an object.  
 
-### `BeautifulSoup()`의 인자들
-- 첫번째로 HTML 텍스트를 전달한다.
-- 두번째로 BeautifulSoup가 객체를 만들때 쓰는 구문 분석기(parser)를 전달한다.
-    ![](img/parsers.png)
-    - `html.parser` : 별도의 C 패키지 설치 없이 사용할 수 있는 분석기
-    - `lxml` : 형식을 지키지 않은 HTML 코드를 분석할 때 `html.parser`보다 나은 성능을 보인다.
-    - `html5lib` : `lxml`보다 다양한 에러를 수정할 수 있다. 닫히지 않은 태그, 계층 구조가 잘못된 태그를 일일이 수정한다.
 
-### 신뢰할 수 있는 연결
-- `urlopen()`에서 등장할 수 있는 에러
-    - 페이지를 찾을 수 없거나("404 Page Not Found"), URL 해석에서 에러가 생긴 경우("URLError")
-    - 서버를 찾을 수 없는 경우("500 Internal Server Error")
-    - `try ... except` 구문을 통해 예외를 처리한다.
+### Method `find()` and `findAll()`
+> - `find(tag, attributes, recursive, text, keywords)`
+> - `findAll(tag, attributes, recursive, text, limit, keywords)`
 
-```python
-from urllib.request import urlopen
-from urlib.error import HTTPError, URLError
-
-try:
-    html = urlopen('https://pythonscrapingthisurldoesnotexist.com')
-except HTTPError as e:
-    print(e)
-except URLError as e:
-    print('The server could not be found!')
-else:
-    print('Got HTML successfully.')
-```
-
-- `bs.tag.subTag`에서 등장할 수 있는 에러
-    - BeautifulSoup는 존재하지 않는 태그에 접근을 시도하면 None 객체를 반환한다. 이때 None 객체에 대해 태그에 접근하려고 하면 AttributeError가 일어난다.
-    - 두 개의 태그의 존재 유무를 명시적으로 체크한다.
-
-```python
-try:
-    badContent = bs.tag.subTag
-except AttributeError as e: # tag1이 존재하지 않는 경우
-    print('tag was not found.')
-else:
-    if badContent == None:
-        print('subTag was not found.')
-    else:
-        print(badContent)
-```
-
-### 고급 HTML 분석을 사용하지 않는 방법
-- 더 나은 HTML 구조를 갖춘 모바일 버전 사이트 찾아보기
-- 자바스크립트 파일을 불러와 분석하기
-- URL에 원하는 정보가 있는지 찾아보기
-- 원하는 정보를 다른 소스에서 가져올 수 있는지 고려하기
-
-### Objects in BeautifulSoup
-1. BeautifulSoup 객체 : 파싱된 문서 전체를 의미한다.
-2. Tag 객체 : XML 또는 HTML 태그를 의미한다.
-3. NavigableString 객체 : 태그가 아니라 태그 안에 있는 텍스트를 의미한다.
-4. Comment 객체 : HTML 주석을 의미한다.
-
-### find()와 findAll() 메서드 인자들
-- find(tag, attributes, recursive, text, keywords)
-- findAll(tag, attributes, recursive, text, limit, keywords)
-
-- `tag` : 태그 이름인 문자열 또는 태그 이름 리스트를 넘긴다.
+- **`tag`**: Accepts a string or a list of tag names to search for.  
     ```python
     bs.findAll({'h1', 'h2', 'h3', 'h4', 'h5'})
-    ```
-- `attributes` : 속성으로 이루어진 파이썬 딕셔너리를 받고, 그 중 하나에 일치하는 태그를 모두 찾는다.
+    ```  
+- **`attributes`**: Takes a Python dictionary of attributes and finds all tags that match any of them.  
     ```python
     bs.findAll('span', {'class': {'green', 'red'}})
-    ```
-- `recursive` : 불리언으로, True이면 매개변수에 일치하는 자식과 자식의 자식을 검색하며 False이면 최상위 태그에 대해서만 검색한다.
-- `text` : 태그의 속성이 아니라 텍스트 콘텐츠에서 일치하는 점을 검색한다.
+    ```  
+- **`recursive`**: A boolean value. If `True`, it searches through all descendants (children and sub-children). If `False`, it only searches the immediate children of the specified tag.  
+- **`text`**: Searches for matching text content rather than tag attributes.  
     ```python
     nameList = bs.findAll(text='the prince')
-    ```
-- `limit` : 페이지의 항목을 처음부터 몇번 탐색할 것인지 지정한다. `find('')`는 `findAll('', limit=1)`과 같다.
-- `keyword` : 특정 속성이 포함된 태그를 AND 연산으로 검색한다.
+    ```  
+- **`limit`**: Specifies how many matches to return from the beginning of the search.  
+  - `find('')` is equivalent to `findAll('', limit=1)`.  
+- **`keyword`**: Searches for tags that contain specific attributes using an AND condition.  
     ```python
-    bs.findAll('', {'id':'text', 'class':'green'})
-    ```
-    - 주어진 조건을 모두 만족하는 태그 목록을 반환한다. 
+    bs.findAll('', {'id': 'text', 'class': 'green'})
+    ```  
+  - Returns a list of tags that satisfy all given conditions.  
 
-## Tools for Crawling
+### Approaches to a Reliable Connection
+1. **Possible errors that may occur in `urlopen()`**
+    - When the page cannot be found ("404 Page Not Found") or there is an error in URL parsing ("URLError").
+    - When the server cannot be found ("500 Internal Server Error").
+- Solution: Use a `try ... except` block to handle exceptions.
+    ```python
+    from urllib.request import urlopen
+    from urlib.error import HTTPError, URLError
+
+    try:
+        html = urlopen('https://pythonscrapingthisurldoesnotexist.com')
+    except HTTPError as e:
+        print(e)
+    except URLError as e:
+        print('The server could not be found!')
+    else:
+        print('Got HTML successfully.')
+    ```
+
+2. **Potential errors from `bs.tag.subTag`**
+    - BeautifulSoup returns `None` when attempting to access a non-existing tag. If an attribute or method is accessed on a `None` object, an `AttributeError` occurs.
+- Solution: Explicitly check for the existence of both tags.
+    ```python
+    try:
+        badContent = bs.tag.subTag
+    except AttributeError as e:
+        print('tag was not found.')
+    else:
+        if badContent == None:
+            print('subTag was not found.')
+        else:
+            print(badContent)
+    ```
+
+## 5. Tools for Crawling
 <hr>
 
-### Utilizing CSS
-- CSS는 HTML 요소를 구분해 서로 다른 스타일을 적용하므로 웹 스크레이퍼에 도움이 된다.
+In case you want to obtain specific informations from website with complicated HTML sturcture, these tools might help. 
 
-    ```python
-    nameList = bs.findAll('span', {'class':'green'})
-    for name in nameList:
-        print(name.get_text())
-    ```
-    위 코드는 `<span class="green"></span>` 태그에 들어있는 텍스트만 선택해서 파이썬 리스트로 추출한다.
-- `get_text()`는 모든 태그를 제거한 유니코드 텍스트 문자열을 반환한다. 일반적으로 문서의 태그 구조를 유지하는 것이 바람직하므로 최종 데이터 출력 또는 저장 직전에 사용해야 한다.
+{{% hint info %}}
+**Before utilizing these tools**, one may consider these methods before getting their hands dirty:
+- Search for mobile version sites with better HTML structure.
+- Search for the target information in URL or JavaScript file.
+- Consider alternative sources for obtaining necessary information.
+{{% /hint %}}
+
+### Utilizing CSS  
+CSS differentiates HTML elements and applies different styles, which helps web scrapers extract specific elements.  
+```python
+nameList = bs.findAll('span', {'class': 'green'})
+for name in nameList:
+    print(name.get_text())
+```
+The above code extracts and returns a Python list containing the text inside `<span class="green"></span>` tags.
+- `get_text()` removes all tags and returns a Unicode text string. Since preserving the document’s tag structure is often desirable, it's best to use this method only when outputting or saving the final data.
 
 ### Utilizing Tree Navigation
-1. 자식(children)과 자손(descendants) 다루기
-    - 자식은 부모보다 한 태그 아래에 있고, 자손은 조상보다 하위 단계에 있는 모든 태그이다. BeautifulSoup는 항상 선택된 태그의 자손을 다룬다.
-    - 자식만 찾을 때는 `.contents` 또는 `.children`을 사용한다. 전자는 리스트를 반환하며, 후자는 iterator를 반환한다.
+1. Dealing with `children` and `descendants`
+    - A **child** is one level below its parent tag, while **descendants** include all tags below their ancestor. BeautifulSoup primarily deals with descendants.
+    - To find only children, use `.contents` or `.children`.
+        - `.contents` returns a list, while `.children` returns an iterator.
     ```python
     for child in bs.find('span', {'class':'green'}).children:
         print(child)
     ```
-2. 형제(sibling) 다루기
-    - 테이블에서 데이터를 구할 때, 특히 테이블에 타이틀 행이 있는 경우 유용하게 활용할 수 있다. `.next_siblings`은 해당 객체를 제외한 다음 형제만 가져온다. 즉, 타이틀 행을 선택하면 그 타이틀 행을 제외한 모든 테이블 행을 가져온다.
+2. Dealing with `sibling`
+    - Useful for extracting table data, especially when a table has a title row.
+    - `.next_siblings` retrieves only the following siblings, excluding the current object.
+    - Selecting the title row allows retrieval of all subsequent table rows.
     ```python
     for sibling in bs.find('span', {'class':'green'}).next_siblings:
         print(sybling)
     ```
-3. 부모(parents) 다루기
-    - 태그의 부모를 검색하기 위해 `.parent` 또는 `.parents`를 활용한다.
+3. Dealing with `parents`
+    - To find a tag's parent, use `.parent` or `.parents`.
     ```python
     print(bs.find('img', {'src':'../img/gifts/img1.jpg'})).parent.previous_sibling.get_text()
     ```
 
 ### Utilizing Regular Expression
-정규 표현식은 BeautifulSoup 표현식 어디든 매개변수로 삽입할 수 있다. 
+Regular expressions can be used as parameters in any BeautifulSoup expression.  
 
-예를 들어 `<img src='../img/gifts/img3.jpg'>` 형태의 제품 이미지를 여러개 찾는 것이 목표라고 하자. 이때 `findAll('img')`로 모든 이미지 태그를 가져올 시에 페이지의 불필요하거나 빈 이미지, 숨은 이미지들을 모두 가져오게 된다. 따라서 제품 이미지만 가져오기 위해 위의 제품 이미지 형태를 정규 표현식으로 전달할 수 있다.
+For example, suppose we want to find multiple product images in the format: `<img src='../img/gifts/img3.jpg'>`. Using `findAll('img')` would retrieve all image tags on the page, including unnecessary, empty, or hidden images. To filter only product images, we can pass a regular expression that matches this specific image format.
 
 ```python
 images = bs.findAll('img', {'src':re.compile('\.\.\/img\/gifts/img.*\.jpg')})
@@ -339,17 +368,21 @@ for image in images:
 ```
 
 ### Utilizing Lambda Expression
-특정 타입의 함수를 findAll 함수의 매개변수로 넘길 수 있다. 이 함수들은 태그 객체를 매개변수로 받고 불리언만 반환해야 한다. BeautifulSoup는 모든 태그 객체를 이 함수에서 평가하고, True로 평가된 태그만 반환한다.
+Specific types of functions can be passed as parameters to the `findAll()` method. These functions must:
+1. Accept a tag object as a parameter.
+2. Return only a boolean (True or False).
 
-예를 들어 다음 코드는 속성이 두개인 태그만 가져온다.
+BeautifulSoup evaluates each tag with this function and returns only those that evaluate to True. For example, the following code retrieves only tags that have exactly two attributes:
 ```python
 bs.findAll(lambd tag: len(tag.attrs) == 2)
 ```
 
-다음 코드는 `text` 기능을 lambda 함수로 표현한 예이다.
+The following code is an example of expressing the text feature using a lambda function.
 ```python
 bs.findAll(lambda tag: tag.get_text() == 'the prince')
 ```
 
+<hr>
+
 ## Reference
-- 『Web Scraping with Python』, Ryan Mitchell
+- Web Scraping with Python, Ryan Mitchell
