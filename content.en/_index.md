@@ -1,15 +1,15 @@
 ---
 title: Intro
-bookToc: false
+# bookToc: false
 ---
 
 </br>
 
 > # 👋 Hi, this is Hyeonjeong Yeo
 
-{{% columns %}}
 
 ## About Me
+<hr>
 
 I am a **data scientist**, solving business problems with NLP and LLM.
 I have interest in <u>sequential data</u>, <u>probabilistic models</u> 
@@ -18,19 +18,19 @@ These days I'm looking at conversation paradigms and video recognition problems 
 
 You can see my resume [here](/docs/resume/). 
 
-<--->
-
 ## This site is
-
-An [archive](/docs/portfolio/) of professional and personal projects, along 
-with a [blog](/posts) for documenting studies of interest, including:
-
-- Paper & Textbook review
-- Tech Review
-- Case Study
-
-{{% /columns %}}
-
 <hr>
 
-📧 You can contact me via [hynjng.yeo@gmail.com](hynjng.yeo@gmail.com).
+1. An [archive](/docs/portfolio/) of professional and personal projects, along 
+with 
+2. A [blog](/posts) for documenting studies of interest, including:
+    - Paper & Textbook review
+    - Tech Review
+    - Case Study
+
+
+## Contact
+<hr>
+
+- 📧 [hynjng.yeo@gmail.com](hynjng.yeo@gmail.com)
+- 🔗 [LinkedIn](https://linkedin.com/in/hyeonjeongyeo)
