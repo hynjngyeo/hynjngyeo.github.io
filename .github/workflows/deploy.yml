@@ -1,34 +1,39 @@
-name: Deploy to GitHub Pages
+name: Deploy Hugo Site
 
 on:
   push:
     branches:
-      - source
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source branch
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: true
-          fetch-depth: 0
+          submodules: true  # Load submodules
+          fetch-depth: 0  # Load every branch
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Update submodule to latest commit from source branch
+        run: |
+          git submodule update --init
+          cd themes/hugo-book
+          git fetch origin source
+          git checkout source
+          cd ../../
+          git submodule update --remote --merge
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v2
         with:
-          node-version: '20'
+          hugo-version: 'latest'
 
-      - name: Install dependencies
-        run: |
-          npm install
+      - name: Build Hugo site
+        run: hugo --config hugo.toml -d public --minify
 
-      - name: Build the site
-        run: |
-          hugo -d public
-
-      - name: Deploy to gh-pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
