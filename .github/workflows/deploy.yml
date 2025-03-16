@@ -1,4 +1,4 @@
-name: Deploy Hugo Site
+name: Deploy to Github Pages
 
 on:
   push:
@@ -8,13 +8,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout source branch
         uses: actions/checkout@v4
         with:
           submodules: true  # Load submodules
           fetch-depth: 0  # Load every branch
+          submodules: recursive 
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
 
       - name: Update submodule to latest commit from source branch
         run: |
@@ -24,11 +29,6 @@ jobs:
           git checkout source
           cd ../../
           git submodule update --remote --merge
-
-      - name: Install Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: 'latest'
 
       - name: Build Hugo site
         run: hugo --config hugo.toml -d public --minify
