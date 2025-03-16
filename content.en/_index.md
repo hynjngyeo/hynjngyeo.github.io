@@ -29,7 +29,7 @@ with
     - Case Study
 
 
-## Contact
+## Contact Me via
 <hr>
 
 - 📧 [hynjng.yeo@gmail.com](hynjng.yeo@gmail.com)
